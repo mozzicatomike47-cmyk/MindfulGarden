@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mind Garden</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF6EC;--card:#fff;--ink:#2B2350;--soft:rgba(43,35,80,.68);--line:rgba(43,35,80,.12);--g1:#FF7EB6;--g2:#FFB86B;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1C1638;--card:#2A2250;--ink:#F4EFFF;--soft:rgba(244,239,255,.72);--line:rgba(244,239,255,.16)}}
+:root[data-theme="dark"]{--bg:#1C1638;--card:#2A2250;--ink:#F4EFFF;--soft:rgba(244,239,255,.72);--line:rgba(244,239,255,.16)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Nunito','Trebuchet MS',system-ui,sans-serif;font-weight:600;line-height:1.45}
+#view{max-width:480px;margin:0 auto;padding:0 14px 110px}
+.hero{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;margin:0 -14px 16px;padding:26px 20px 24px;border-radius:0 0 30px 30px;text-shadow:0 1px 3px rgba(0,0,0,.2)}
+.hero h1{margin:0;font-size:1.9rem;font-weight:800;line-height:1.1}
+.hero p{margin:6px 0 0;font-size:1.02rem;opacity:.95}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;margin:0 0 14px}
+.card h3{margin:0 0 6px;font-size:1.15rem;font-weight:800}
+.card p{margin:4px 0;color:var(--soft)}
+.moods{display:flex;justify-content:space-between;gap:6px;margin-top:8px}
+.mood{flex:1;font-size:2rem;padding:8px 0;background:var(--bg);border:2px solid transparent;border-radius:16px;cursor:pointer}
+.mood.on{border-color:var(--g1);transform:scale(1.08)}
+.btn{font:inherit;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--g1),var(--g2));border:0;border-radius:999px;padding:11px 24px;font-size:1.05rem;cursor:pointer;min-height:46px;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.btn.alt{background:var(--bg);color:var(--ink);text-shadow:none;border:2px solid var(--line)}
+.btn:active{transform:scale(.97)}
+.aff{background:linear-gradient(135deg,#FF6FA5,#FFA45B);color:#fff;border:0;text-align:center;padding:30px 20px;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+.aff .q{font-size:1.6rem;font-weight:800;line-height:1.25;margin:0 0 4px;color:#fff}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));z-index:9}
+nav button{flex:1;max-width:80px;background:none;border:0;color:var(--soft);font:inherit;font-size:.72rem;font-weight:800;padding:4px 0;cursor:pointer;border-radius:14px}
+nav button span{display:block;font-size:1.5rem;line-height:1.1}
+nav button.on{color:var(--ink);background:var(--bg)}
+button:focus-visible,summary:focus-visible,textarea:focus-visible{outline:3px solid var(--g1);outline-offset:2px}
+.orb-wrap{display:flex;justify-content:center;padding:14px 0}
+.orb{width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9CF0FF,#38C6D9 55%,#5B8DEF);display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;font-weight:800;font-size:1.4rem;text-shadow:0 1px 3px rgba(0,0,0,.3);transform:scale(.6);transition:transform 4s ease-in-out;box-shadow:0 0 50px rgba(56,198,217,.5)}
+.orb small{font-size:2.2rem}
+.seg{display:flex;gap:6px;margin:0 0 14px}
+.seg button{flex:1;font:inherit;font-weight:800;padding:10px 4px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.seg button.on{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;border-color:transparent;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+details.card summary{font-weight:800;font-size:1.1rem;cursor:pointer;list-style:none}
+details.card summary::-webkit-details-marker{display:none}
+details[open].card summary{margin-bottom:6px}
+textarea{width:100%;min-height:90px;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:16px;padding:12px;resize:vertical}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.tag{font:inherit;font-weight:800;font-size:.9rem;padding:6px 12px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tag.on{background:var(--g1);color:#fff;border-color:transparent}
+.ent small{color:var(--soft)}
+.del{float:right;background:none;border:0;color:var(--soft);font-size:1.1rem;cursor:pointer}
+.note{font-size:.85rem;color:var(--soft);text-align:center;margin:18px 6px 0}
+@media (prefers-reduced-motion:reduce){.orb{transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<div id="view"></div>
+<nav id="nav"></nav>
+<script>
+(()=>{
+const TABS=[
+ ['home','🏠','Home','#FF7EB6','#FFB86B'],['breathe','🌬️','Breathe','#38C6D9','#5B8DEF'],
+ ['affirm','✨','Affirm','#FF6FA5','#FFA45B'],['brain','🧠','Brain','#9B6BFF','#6C7BFF'],
+ ['body','💪','Body','#FF9F43','#F4C21B'],['thoughts','📝','Thoughts','#3FBF86','#38C6D9']];
+const AFF=["I am doing the best I can, and that is enough.","Feelings are visitors. I can let them come and go.","I can handle hard things, one small step at a time.","I deserve rest, kindness, and care.","Mistakes help me learn. They do not define me.","I choose to speak to myself like a good friend.","My worth is not measured by my productivity.","I am allowed to take up space.","This moment will pass, and I will be okay.","I am growing, even when it feels slow.","I let go of what I cannot control.","I am proud of how far I have come.","Asking for help is a sign of strength.","I breathe in calm and breathe out tension.","Today I will notice one good thing."];
+const BRAIN=[
+ ['🚨','The alarm system (amygdala)','A small almond-shaped area that scans for danger. When it senses a threat, real or imagined, it triggers the fight-or-flight response: fast heartbeat, tense muscles, racing thoughts. It cannot tell a bear from a stressful email, which is why anxiety can feel so physical.'],
+ ['🧭','The wise planner (prefrontal cortex)','The front part of your brain helps you plan, focus, and choose how to respond. Stress and poor sleep turn it down, while slow breathing, movement, and rest help it come back online.'],
+ ['🌱','Your brain can change (neuroplasticity)','Every time you repeat a thought or habit, you strengthen that pathway, like a trail through a field. Practicing calm, gratitude, and new skills builds new trails. Change is slow but real.'],
+ ['🌙','Sleep and memory (hippocampus)','While you sleep, your brain sorts the day, stores memories, and clears waste. Most adults do best with 7 to 9 hours. Poor sleep makes emotions feel bigger and harder to manage.'],
+ ['🎯','Motivation chemical (dopamine)','Dopamine is about wanting and anticipating, not just pleasure. Small wins, like ticking off one tiny task, give it a healthy boost. Endless scrolling can wear down your sense of reward.'],
+ ['🫁','Your calm switch (vagus nerve)','A long nerve connects your brain to your heart and gut. Slow exhales, especially longer than your inhales, signal your body that it is safe and turn on the rest-and-digest mode.']];
+const YOGA=[
+ ['🧘','Easy pose','Sit cross-legged, spine tall, hands on knees. Breathe slowly for 1 to 2 minutes.','Settles a busy mind.'],
+ ['🐱','Cat-cow','On hands and knees, arch your back as you inhale, round it as you exhale. Repeat 8 times.','Releases neck and back tension.'],
+ ['👶',"Child's pose",'Kneel, sit back on your heels, fold forward, and rest your forehead down. Stay 5 slow breaths.','Feels safe and quiet.'],
+ ['🌳','Tree pose','Stand on one foot, other foot on your calf or thigh, hands together. Hold 30 seconds each side.','Builds focus and balance.'],
+ ['🦵','Legs up the wall','Lie down with your legs resting up a wall for 3 to 5 minutes.','Helps the body wind down.']];
+const MOVE=[
+ ['🚶','10-minute walk','A short walk outside can lift your mood right away. Notice 3 things you can see and 2 you can hear.'],
+ ['💃','Dance break','Play one song and move any way you like. Movement releases feel-good chemicals.'],
+ ['🤸','Stretch break','Roll your shoulders, reach up high, and touch your toes slowly. Do it every hour if you sit a lot.'],
+ ['🏃','Get your heart pumping','Aim for about 150 minutes of moderate activity a week. Even 5 minutes counts on hard days.'],
+ ['🌳','Go outside','Sunlight and green spaces help lower stress and support sleep.']];
+const EAT=[
+ ['🥦','Eat the rainbow','Colorful fruits and vegetables give your brain vitamins and antioxidants.'],
+ ['🐟','Healthy fats','Fish, nuts, seeds, and olive oil support brain health.'],
+ ['🌾','Steady energy','Whole grains and protein keep blood sugar steady, which helps steady moods.'],
+ ['💧','Drink water','Even mild dehydration can make you tired and irritable. Keep water nearby.'],
+ ['☕','Go easy on caffeine and sugar','Too much can cause jitters and crashes, and can disturb sleep.'],
+ ['🍽️','Regular meals','Skipping meals can affect mood and focus. Small snacks count.']];
+const MODES={box:['Box (4-4-4-4)',[['Breathe in',4],['Hold',4],['Breathe out',4],['Hold',4]]],
+ relax:['Relax (4-7-8)',[['Breathe in',4],['Hold',7],['Breathe out',8]]],calm:['Gentle (5-5)',[['Breathe in',5],['Breathe out',5]]]};
+const TAGS=['Grateful','Proud','Worried','Stressed','Sad','Just thinking'];
+const PROMPTS=['What would I say to a friend who felt this way?','Is this a fact, or a feeling right now?','What is one small thing I can do next?','What is going well, even a little?'];
+let tab='home',mood=null,sub='yoga',mode='box',timer=0,running=false,cycles=0,affI=0,tag='Just thinking',ents=[],favs=[];
+try{ents=JSON.parse(localStorage.getItem('mg_ents')||'[]');mood=+localStorage.getItem('mg_mood')||null;}catch(e){}
+const $=s=>document.querySelector(s);
+const save=()=>{try{localStorage.setItem('mg_ents',JSON.stringify(ents));}catch(e){}};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function halt(){clearTimeout(timer);running=false}
+function go(t){halt();tab=t;render()}
+function hero(t,p){return `<div class="hero"><h1>${t}</h1><p>${p}</p></div>`}
+function nav(){
+  $('#nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" class="${t[0]===tab?'on':''}"><span>${t[1]}</span>${t[2]}</button>`).join('');
+  $('#nav').querySelectorAll('button').forEach(b=>b.onclick=()=>go(b.dataset.t));
+}
+const MOODS=[['😞','Rough day','Try a minute of slow breathing.','breathe'],['😕','A bit low','Read a kind affirmation.','affirm'],['😐','Okay','A short walk or stretch can help.','body'],['🙂','Good','Write down what is going well.','thoughts'],['😄','Great','Learn how your brain loves this feeling.','brain']];
+function render(){
+  const T=TABS.find(t=>t[0]===tab);
+  document.documentElement.style.setProperty('--g1',T[3]);document.documentElement.style.setProperty('--g2',T[4]);
+  nav();const v=$('#view');
+  if(tab==='home'){
+    const h=new Date().getHours(),g=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+    const m=mood&&MOODS[mood-1],doy=Math.floor((Date.now()-new Date(new Date().getFullYear(),0,0))/864e5);
+    const brainFact=BRAIN[doy%BRAIN.length],yogaTip=YOGA[doy%YOGA.length],foodTip=EAT[doy%EAT.length];
+    const QUICK=[['🌬️','Breathe for 1 min','breathe'],['✨','Read an affirmation','affirm'],['🧘','Try a pose','body'],['📝','Write a thought','thoughts']];
+    v.innerHTML=hero(g+' 🌈','Take a moment for you. How are you feeling?')+
+    `<div class="card"><h3>Mood check-in</h3><div class="moods">${MOODS.map((x,i)=>`<button class="mood ${mood===i+1?'on':''}" data-m="${i+1}" aria-label="${x[1]}">${x[0]}</button>`).join('')}</div>
+    ${m?`<p style="margin-top:12px"><b>${m[1]}.</b> ${m[2]}</p><button class="btn" id="sug" style="margin-top:6px">Let's go</button>`:''}</div>
+    <div class="card aff"><p class="q">${AFF[new Date().getDate()%AFF.length]}</p><p style="color:#fff;opacity:.9">Today's affirmation</p></div>
+    <h3 style="margin:4px 2px 8px">Quick actions</h3>
+    <div class="moods" style="flex-wrap:wrap">${QUICK.map(x=>`<button class="mood" data-go="${x[2]}" style="flex:1 1 40%;font-size:1.4rem" aria-label="${x[1]}"><div style="font-size:1.6rem">${x[0]}</div><div style="font-size:.72rem;font-weight:800;margin-top:2px">${x[1]}</div></button>`).join('')}</div>
+    <div class="card"><h3>Your progress</h3>
+    <p>🌬️ Breathing cycles today: <b>${cycles}</b></p>
+    <p>📝 Thoughts written: <b>${ents.length}</b></p>
+    <p>♥ Affirmations saved: <b>${favs.length}</b></p></div>
+    <details class="card"><summary>🧠 Brain fact of the day</summary><p><b>${brainFact[0]} ${brainFact[1]}.</b> ${brainFact[2]}</p></details>
+    <details class="card"><summary>🧘 Try this pose</summary><p><b>${yogaTip[0]} ${yogaTip[1]}.</b> ${yogaTip[2]} <br><b>Why:</b> ${yogaTip[3]}</p></details>
+    <details class="card"><summary>🥗 Food for mood</summary><p><b>${foodTip[0]} ${foodTip[1]}.</b> ${foodTip[2]}</p></details>
+    <div class="card"><h3>Explore</h3><p>Breathe, learn about your brain, move your body, eat well, and write your thoughts. Tap the tabs below.</p></div>
+    <p class="note">This app supports wellbeing and is not a substitute for professional care. If you are in crisis in the US, call or text 988.</p>`;
+    v.querySelectorAll('.mood[data-m]').forEach(b=>b.onclick=()=>{mood=+b.dataset.m;try{localStorage.setItem('mg_mood',mood)}catch(e){}render()});
+    v.querySelectorAll('.mood[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+    if(m)$('#sug').onclick=()=>go(m[3]);
+  }
+  if(tab==='breathe'){
+    v.innerHTML=hero('Breathe 🌬️','Slow breathing calms your body and mind.')+
+    `<div class="seg">${Object.entries(MODES).map(([k,x])=>`<button data-k="${k}" class="${mode===k?'on':''}">${x[0]}</button>`).join('')}</div>
+    <div class="orb-wrap"><div class="orb" id="orb"><small id="cnt">🙂</small><span id="lbl">Ready?</span></div></div>
+    <div style="text-align:center"><button class="btn" id="go">Start</button><p id="cy" style="margin-top:10px">Cycles: ${cycles}</p></div>`;
+    v.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{halt();mode=b.dataset.k;render()});
+    $('#go').onclick=()=>{if(running){halt();render();return}running=true;cycles=0;$('#go').textContent='Stop';run(0,MODES[mode][1][0][1])};
+  }
+  if(tab==='affirm'){
+    v.innerHTML=hero('Affirmations ✨','Kind words for your mind.')+
+    `<div class="card aff"><p class="q" id="aq">${AFF[affI]}</p></div>
+    <div style="text-align:center"><button class="btn" id="nx">New affirmation</button> <button class="btn alt" id="fv">${favs.includes(affI)?'♥ Saved':'♡ Save'}</button></div>
+    ${favs.length?`<div class="card" style="margin-top:14px"><h3>Your saved ones</h3>${favs.map(i=>`<p>♥ ${AFF[i]}</p>`).join('')}</div>`:''}
+    <div class="card" style="margin-top:14px"><h3>How to use them</h3><p>Read one slowly, out loud if you can. Breathe. Notice how it feels, even if it feels odd at first.</p></div>`;
+    $('#nx').onclick=()=>{let n;do{n=Math.floor(Math.random()*AFF.length)}while(n===affI);affI=n;render()};
+    $('#fv').onclick=()=>{favs=favs.includes(affI)?favs.filter(x=>x!==affI):[...favs,affI];render()};
+  }
+  if(tab==='brain'){
+    v.innerHTML=hero('How your brain works 🧠','Understanding it makes it easier to be kind to yourself.')+
+    BRAIN.map(b=>`<details class="card"><summary>${b[0]} ${b[1]}</summary><p>${b[2]}</p></details>`).join('');
+  }
+  if(tab==='body'){
+    const list=sub==='yoga'?YOGA.map(y=>`<details class="card"><summary>${y[0]} ${y[1]}</summary><p>${y[2]}</p><p><b>Why:</b> ${y[3]}</p></details>`).join('')
+      :(sub==='move'?MOVE:EAT).map(y=>`<div class="card"><h3>${y[0]} ${y[1]}</h3><p>${y[2]}</p></div>`).join('');
+    v.innerHTML=hero('Body & fuel 💪','Movement and food shape your mood.')+
+    `<div class="seg">${[['yoga','🧘 Yoga'],['move','🏃 Exercise'],['eat','🥗 Diet']].map(x=>`<button data-k="${x[0]}" class="${sub===x[0]?'on':''}">${x[1]}</button>`).join('')}</div>${list}
+    <p class="note">Check with a doctor before starting a new exercise or diet plan, especially if you have health conditions.</p>`;
+    v.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{sub=b.dataset.k;render()});
+  }
+  if(tab==='thoughts'){
+    v.innerHTML=hero('Thoughts 📝','Get them out of your head and onto the page.')+
+    `<div class="card"><h3>What's on your mind?</h3><div class="tags">${TAGS.map(t=>`<button class="tag ${t===tag?'on':''}" data-t="${t}">${t}</button>`).join('')}</div>
+    <textarea id="tx" placeholder="Write here. It stays on this device."></textarea>
+    <p style="margin:8px 0"><b>Try asking:</b> ${PROMPTS[Math.floor(Math.random()*PROMPTS.length)]}</p><button class="btn" id="sv">Save thought</button></div>
+    ${ents.map((e,i)=>`<div class="card ent"><button class="del" data-i="${i}" aria-label="Delete">✕</button><small>${e.tag} · ${e.d}</small><p style="color:var(--ink)">${esc(e.t)}</p></div>`).join('')}`;
+    v.querySelectorAll('.tag').forEach(b=>b.onclick=()=>{const x=$('#tx').value;tag=b.dataset.t;render();$('#tx').value=x});
+    $('#sv').onclick=()=>{const t=$('#tx').value.trim();if(!t)return;ents.unshift({t,tag,d:new Date().toLocaleDateString()});save();render()};
+    v.querySelectorAll('.del').forEach(b=>b.onclick=()=>{ents.splice(+b.dataset.i,1);save();render()});
+  }
+  window.scrollTo(0,0);
+}
+function run(i,sec){
+  if(!running)return;
+  const ph=MODES[mode][1],p=ph[i],orb=$('#orb');if(!orb)return;
+  const full=p[1]===sec;
+  if(full){
+    if(/in/.test(p[0])){orb.style.transitionDuration=p[1]+'s';orb.style.transform='scale(1)'}
+    else if(/out/.test(p[0])){orb.style.transitionDuration=p[1]+'s';orb.style.transform='scale(.6)'}
+  }
+  $('#lbl').textContent=p[0];$('#cnt').textContent=sec;
+  timer=setTimeout(()=>{
+    if(sec>1)run(i,sec-1);
+    else{const n=(i+1)%ph.length;if(n===0){cycles++;const c=$('#cy');if(c)c.textContent='Cycles: '+cycles}run(n,ph[n][1])}
+  },1000);
+}
+render();
+})();
+</script>
+</body>
+</html>
